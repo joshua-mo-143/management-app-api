@@ -1,18 +1,18 @@
-GET http://localhost:3000/subscribers
+GET http://localhost:3000/tasks
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzM0NmMzZWUwNzNjMjhhNzc3ZmU1YTMiLCJ1c2VybmFtZSI6ImEiLCJwYXNzd29yZCI6IiQyYSQxMCRmRGx6Q1VEdkVzc0FOSGM4elhrcVVPTXE2L1ZHd05TNmpDTndCb0N1eUd6TlZjVXVGSTU5aSIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJjcmVhdGVkQXQiOiIyMDIyLTA5LTI4VDE1OjQ2OjAyLjEwMloiLCJfX3YiOjAsImlhdCI6MTY2NDQ1MjczM30.sBnEL5MEIAqKgwQpbTsO_8nPVR-9AI--87Eu-jzZOcE
 
 ###
 
-GET http://localhost:3000/subscribers/63052b55e56a03a2b24fb6dc
+GET http://localhost:3000/tasks/632dd83ac7940884595e415a
 
 ###
 
-POST http://localhost:3000/subscribers
+POST http://localhost:3000/tasks
 Content-Type: application/json
 
 {
-    "name": "Meme",
-    "subscribedChannel": "Pewdiepie"
-    
+    "taskName": "M",
+    "taskDesc": "Take out the garbage"
 }
 
 ###
@@ -24,4 +24,28 @@ Content-Type: application/json
     "subscribedChannel": "Meme"
 }
 ###
-DELETE http://localhost:3000/subscribers
+DELETE http://localhost:3000/tasks/6331aecc421d563df95c58b2
+
+
+###
+
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "a",
+    "email": "a@gmail.com",
+    "password": "a"
+}
+
+###
+
+POST http://localhost:3000/auth
+Content-Type: application/json
+
+{
+    "username": "a",
+    "password": "a"
+}
+
+
