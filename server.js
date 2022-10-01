@@ -10,8 +10,9 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 const morgan = require('morgan')
 
+
 const cors = require('cors')
-app.use(cors())
+app.use(cors({ origin: true, credentials: true }))
 
 
 // connect to db
@@ -29,7 +30,6 @@ app.use(express.urlencoded({extended: false}))
 app.use(sessions({
     secret: process.env.SESSION_SECRET,
     saveUninitialized:true,
-    cookie: { maxAge: 86400000 },
     resave: false 
 }));
 

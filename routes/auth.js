@@ -10,8 +10,6 @@ const user = require('../models/user')
 const User = require("../models/user");
 
 router.post('/',  function(req, res) {
-
-    
     User.findOne({
       username: req.body.username
     }, function(err, user) {
@@ -26,7 +24,9 @@ router.post('/',  function(req, res) {
             // if user is found and password is right create a token
             const token = jwt.sign(user.toJSON(), process.env.PASSPORT_SECRET);
             // return the information including token as JSON
-            return res.json({success: true, token: 'JWT ' + token});
+            // return cookie
+            res.cookie('jwt', token, {httpOnly: true})
+            return res.json({'jwt': token});
           } else {
             res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
           }
@@ -36,7 +36,7 @@ router.post('/',  function(req, res) {
   });
 
 router.get('/', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
+    const token = getToken(req.headers);
     if (token) {
       next()
     } else {
@@ -46,7 +46,7 @@ router.get('/', passport.authenticate('jwt', { session: false}), function(req, r
 
 const getToken = (headers) => {
     if (headers && headers.authorization) {
-      var parted = headers.authorization.split(' ');
+      const parted = [headers.authorization.slice(0,3), headers.authorisation.slice(3,headers.authorisation.length)];
       if (parted.length === 2) {
         return parted[1];
       } else {

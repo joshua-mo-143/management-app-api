@@ -1,37 +1,43 @@
 // require variables
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 
 // model schemas from /models/task.js
 const task = require('../models/task')
 const Task = require('../models/task')
+const User = require('../models/user')
 
 // Get all tasks, async await function
 router.get('/', async (req, res) => {
     try {
         // await result
- const subscribers = await Task.find();
+ const tasks = await Task.find({taskOwner: req.headers['user']});
 //  send back results to user
- res.json(subscribers);
+ res.json(tasks);
+
 //  catch errors
     } catch {
 res.status(500).json({message: err.message})
     }
+
 })
 
-// Get one sub
+// Get one task
 router.get('/:id', getTask, (req, res) => {
     res.send(res.task)
 })
 
-// Create subscriber
+// Create task
 router.post('/', async (req, res) => {
+    if (req.body.taskOwner == req.headers.user) {
+    
     // attempt to push new record to database based on schema
  const task = new Task({
     taskName: req.body.taskName,
     taskDesc: req.body.taskDesc,
- })
-
+    taskOwner: req.body.taskOwner
+ });
 //  attempt commit to database
  try {
     const newTask =  await task.save()
@@ -39,6 +45,8 @@ router.post('/', async (req, res) => {
  } catch (err) {
     res.status(400).json({message: err.message})
  }
+} 
+    console.log("ERROR 401: Not authorised.")
 })
 
 // Update subscriber
