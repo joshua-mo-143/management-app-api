@@ -26,11 +26,30 @@ const taskSchema = new mongoose.Schema({
                 required: true
         },
 
+        taskCompletedBy: {
+                type: String,
+                default: null,
+                required: false
+        },
+
         taskOwner: {
                 type: String,
                 required: true
                 
+        },
+
+
+        highPriority: {
+                type: Boolean,
+                required: true,
+                default: false
+        },
+
+        projectId: {
+                type: String
+                
         }
+        
 }, {collection: 'tasks'})
 
 // expose model; name is 'Subscriber', using the

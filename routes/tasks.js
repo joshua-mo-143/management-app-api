@@ -36,7 +36,10 @@ router.post('/', async (req, res) => {
  const task = new Task({
     taskName: req.body.taskName,
     taskDesc: req.body.taskDesc,
-    taskOwner: req.body.taskOwner
+    taskOwner: req.headers.user,
+    delegatedTo: req.headers.user,
+    highPriority: req.body.highPriority,
+    projectId: req.body.projectId
  });
 //  attempt commit to database
  try {
@@ -46,7 +49,6 @@ router.post('/', async (req, res) => {
     res.status(400).json({message: err.message})
  }
 } 
-    console.log("ERROR 401: Not authorised.")
 })
 
 // Update subscriber
@@ -62,6 +64,10 @@ router.patch('/:id', getTask, async (req, res) => {
 
     if (req.body.taskCompleted != null) {
         res.task.taskCompleted = req.body.taskCompleted
+    }
+
+    if (req.body.taskCompletedBy != null) {
+        res.task.taskCompletedBy = req.body.taskCompletedBy
     }
 
     // attempt to save record changes to database
