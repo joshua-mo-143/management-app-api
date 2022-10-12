@@ -37,7 +37,6 @@ router.post('/', async (req, res) => {
     taskName: req.body.taskName,
     taskDesc: req.body.taskDesc,
     taskOwner: req.headers.user,
-    delegatedTo: req.headers.user,
     highPriority: req.body.highPriority,
     projectId: req.body.projectId
  });
@@ -80,7 +79,7 @@ router.patch('/:id', getTask, async (req, res) => {
 })
 // Delete subscriber
 router.delete('/:id', getTask, async (req, res) => {
-
+    
     try {
         await res.task.remove()
         res.json({message: 'Deleted task'})
